@@ -1,0 +1,24 @@
+#include "MPU6050_C_Barsotion.h"
+
+
+// ??????? ?????????, ??????? ??????, ???????? ????????? ????????
+//???? ??, ?? mea_e, mea_e, q
+void MPU6050_setFilterParameters(MPU6050_Filter_TypeDef* channel, float mea_e, float est_e, float q)
+{
+	channel->err_measure = mea_e;
+	channel->err_estimate = est_e;
+	channel->q = q;
+    channel->last_estimate = 0;
+}
+	
+// ?????????? ????????????? ????????
+float MPU6050_Filtered(MPU6050_Filter_TypeDef* channel, float value)
+{		
+	float kalman_gain, current_estimate;
+	kalman_gain = channel->err_estimate / (channel->err_estimate + channel->err_measure);
+	current_estimate = channel->last_estimate + kalman_gain * (value - channel->last_estimate);
+	channel->err_estimate = (1.0 - kalman_gain) * channel->err_estimate + 
+            fabs(channel->last_estimate - current_estimate) * channel->q;
+	channel->last_estimate = current_estimate;
+	return current_estimate;
+}

@@ -1,0 +1,32 @@
+/* 
+ * File:   Time.h
+ * Author: victor
+ *
+ * Created on May 9, 2024, 4:17 AM
+ */
+
+#ifndef TIME_H
+#define	TIME_H
+
+#ifdef	__cplusplus
+extern "C" {
+#endif
+
+#include "defines.h"
+
+//#include <avr/io.h>
+//#include <avr/interrupt.h>
+
+//??????????, ??????? ???????, ??????????? ?? ???????????
+volatile uint32_t timer0_overflow_count;
+
+void TIME_INI();
+uint32_t micros();
+uint32_t millis();
+
+#ifdef	__cplusplus
+}
+#endif
+
+#endif	/* TIME_H */
+
